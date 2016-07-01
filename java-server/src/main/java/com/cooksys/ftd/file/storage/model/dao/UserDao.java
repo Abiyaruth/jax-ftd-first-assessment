@@ -12,7 +12,10 @@ import com.cooksys.ftd.file.storage.model.User;
 public class UserDao extends AbstractDao {
 
 	private Logger log = LoggerFactory.getLogger(UserDao.class);
-
+/*
+ * Validates whether the User is present.
+ * If not creates a new user and gets the data from client and stores in the database
+ */
 	public User createUser(User user) throws SQLException {
 		User invalidUser = new User(-1, "undefined", "undefined");
 		String findUser = "SELECT * FROM user " + "WHERE username LIKE ? ";

@@ -33,7 +33,7 @@ public class FileDDao extends AbstractDao {
 		stmt0.setString(2, filep.getAbsolutePath());
 		stmt0.setObject(3,buffer);
 		stmt0.executeUpdate();
-		sql = "SELECT @@IDENTITY";
+		sql = "SELECT @@IDENTITY";// returns the last value inserted
 		stmt = this.getConn().prepareStatement(sql);
 		rs = stmt.executeQuery();
 		if (rs.next()) {

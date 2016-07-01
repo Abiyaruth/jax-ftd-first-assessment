@@ -9,7 +9,7 @@ let server
 const host = '127.0.0.1'
 const port = 667
 const users = {}
-let Userlogged = false// By default false it changes true when a User is logged-in
+let Userlogged = true
 /*
 *Connects With the Client with the Server
 */
@@ -89,7 +89,6 @@ login
         .catch((err) => this.log(`An error occurred: ${err}`))
     )
   })
-// DisconnectServer()
 /* logout
 *  logsout if the user is logged-in
 */
@@ -114,7 +113,7 @@ const files = cli.command('Files')
 files
 .description('Displays list of files')
 .action((args, callback) => {
-  if (Userlogged) {
+  if (!Userlogged) {
     cli.log('You are not logged in. You have to be logged in to access')
   } else {
   //  ServerConnection()
@@ -136,7 +135,7 @@ upload <local file path> [path stored in database]
 const upload = cli.command('upload <localFilePath> [pathStoredInTheDatabase]')
 upload
 .description('Uploads the local file paths')
-.description('Upload a file to you')
+.description('Upload a file to you database')
   .action((args, callback) => {
     if (!Userlogged) {
       cli.log('You are not logged in. You have to be logged in to access')
@@ -147,7 +146,6 @@ upload
       } else {
         filePathToUpload = args.pathfordatabase
       }
-    //  ServerConnection()
       fs.open(args.absolutefilepath, 'r', (err, fd) => {
         if (err) {
           cli.log(`There was an error opening the file to send: ${err}`)
@@ -162,7 +160,6 @@ upload
         })
       })
     }
-  //  DisconnectServer()
     callback()
   })
 /*
@@ -179,7 +176,6 @@ download
   if (!Userlogged) {
     cli.log('You are not logged in. You have to be logged in to access')
   } else {
-  //  ServerConnection()
     writeTo(`getfile ${args.fileid}`)
     server.on('data', (data) => {
       let filePathToSave
@@ -201,7 +197,6 @@ download
       })
     })
   }
-//  DisconnectServer()
   callback()
 })
 export default cli

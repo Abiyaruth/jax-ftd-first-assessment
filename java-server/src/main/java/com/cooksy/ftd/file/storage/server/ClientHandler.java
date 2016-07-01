@@ -17,7 +17,6 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import com.cooksys.ftd.file.storage.model.User;
 import com.cooksys.ftd.file.storage.model.api.Abstract;
 import com.cooksys.ftd.file.storage.model.api.ClientMessage;
@@ -26,7 +25,6 @@ import com.cooksys.ftd.file.storage.model.api.Register;
 import com.cooksys.ftd.file.storage.model.api.Response;
 import com.cooksys.ftd.file.storage.model.dao.FileDDao;
 import com.cooksys.ftd.file.storage.model.dao.UserDao;
-
 
 /**
  * Handles the client in server side
@@ -41,7 +39,6 @@ public class ClientHandler implements Runnable {
 	Map<String, Object> properties = new HashMap<String, Object>();
 	private UserDao userDao;
 	private FileDDao fileDao;
-
 
 	@Override
 	public void run() {
@@ -75,7 +72,8 @@ public class ClientHandler implements Runnable {
 			closed = true;
 		}
 	}
-// Handles the client Messages
+
+	// Handles the client Messages and unmarshalls
 	public ClientMessage getClientMessage() throws IOException, JAXBException {
 		String input = reader.readLine();
 		log.info("Input: {}", input);
@@ -85,7 +83,8 @@ public class ClientHandler implements Runnable {
 
 		return (ClientMessage) unmarshaller.unmarshal(new StringReader(input));
 	}
-// Registers User 
+
+	// Registers User
 	public void registerUser(ClientMessage clientMessage) throws JAXBException, SQLException {
 		Response<User> response = new Response<>();
 		response.setMessage("User has been sucessfully registered!");
@@ -111,7 +110,8 @@ public class ClientHandler implements Runnable {
 
 		sendResponse(response);
 	}
-// User Login
+
+	// User Login
 	public void loginUser(ClientMessage clientMessage) throws JAXBException, SQLException, IOException {
 
 		Response<String> response = new Response<>();
@@ -133,8 +133,7 @@ public class ClientHandler implements Runnable {
 		Response<User> checkPwd = new Response<>();
 		checkPwd.setMessage("checkPass");
 		checkPwd.setData(newUser);
-		sendResponse(checkPwd); // Sends user/hashed pass to check with client
-							
+		sendResponse(checkPwd); // Sends user the hashed pass to check with client
 
 		ClientMessage passwordCheckMessage = getClientMessage();
 
@@ -147,7 +146,7 @@ public class ClientHandler implements Runnable {
 		sendResponse(response);
 	}
 
-// sends Objects as response
+	// sends marshalled Objects as response
 	public void sendResponse(Response<?> response) throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance(new Class[] { Response.class }, properties);
 		Marshaller marshaller = jc.createMarshaller();
