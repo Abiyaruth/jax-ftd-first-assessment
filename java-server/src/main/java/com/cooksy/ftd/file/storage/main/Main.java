@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.cooksy.ftd.file.storage.server.Server;
 import com.cooksys.ftd.file.storage.model.dao.FileDDao;
 import com.cooksys.ftd.file.storage.model.dao.UserDao;
-import com.cooksys.ftd.file.storage.model.dao.UserFileDao;
+
 
 /**
  * Main class
@@ -49,10 +49,6 @@ public class Main {
 			UserDao userdao = new UserDao();
 			UserDao.setConn(conn);
 			server.setUserdao(userdao);
-
-			UserFileDao userfiledao = new UserFileDao();
-			UserFileDao.setConn(conn);
-			server.setUserfiledao(userfiledao);
 
 			FileDDao filedao = new FileDDao();
 			FileDDao.setConn(conn);

@@ -6,24 +6,25 @@ import { hash, compare } from './hashing'
 
 const cli = vorpal()
 let server
-const host = 'localhost'
+const host = '127.0.0.1'
 const port = 667
 const users = {}
-let Userlogged = false
+let Userlogged = false// By default false it changes true when a User is logged-in
 /*
 *Connects With the Client with the Server
 */
-const ServerConnection = () => {
-  server = net.createConnection(port, host, () => {
-    return 0
-  })
-}
+cli
+.delimiter('connected:')
+server = net.createConnection(port, host, () => {
+  return 0
+})
 /*
  * Disconnects the Client from the Server
 */
-const DisconnectServer = () => {
-  server.end()
-}
+server.on('end', () => {
+  this.log('disconnected from server :(')
+  cli.exec('exit')
+})
 const writeTo = (string) => server.write(string + '\n')
 
 const writeJSONFile = (object) => {
@@ -46,7 +47,6 @@ const register = cli.command('register <username> <password>')
 register
 .description('Registers a user with this application')
 .action(function (args, callback) {
-  ServerConnection()
   return (
     Promise.resolve(users[args.username] !== undefined)
     .then(
@@ -60,7 +60,6 @@ register
       .catch((err) => this.log(`An error occurred: ${err}`))
   )
 })
-DisconnectServer()
 /*
 login <username> <password>
     * logs a user in to the command line interface
@@ -71,11 +70,7 @@ login <username> <password>
 const login = cli.command('login <username> <password>')
 login
   .description('Login with a specified username and password')
-  .init(function (args, callabck) {
-    server = net.createConnection()
-  })
-  .action(function (args, cb) {
-    ServerConnection()
+  .action(function (args, callback) {
     return (
       Promise.resolve(users[args.username])
         .then(
@@ -94,14 +89,17 @@ login
         .catch((err) => this.log(`An error occurred: ${err}`))
     )
   })
-DisconnectServer()
-
+// DisconnectServer()
+/* logout
+*  logsout if the user is logged-in
+*/
 cli
   .command('logout')
   .description('Logs you out, if you are logged in')
   .action((callback) => {
     if (!Userlogged) {
       cli.log('You are not logged in. You have to be logged in to log out.')
+      server.close()
     } else {
       Userlogged = false
     }
@@ -116,15 +114,15 @@ const files = cli.command('Files')
 files
 .description('Displays list of files')
 .action((args, callback) => {
-  if (!Userlogged) {
+  if (Userlogged) {
     cli.log('You are not logged in. You have to be logged in to access')
   } else {
-    ServerConnection()
+  //  ServerConnection()
     writeTo(`getlist ${Userlogged}`)
     server.on('data', (d) => {
       cli.log(d.toString())
     })
-    DisconnectServer()
+  //  DisconnectServer()
     callback()
   }
 })
@@ -149,7 +147,7 @@ upload
       } else {
         filePathToUpload = args.pathfordatabase
       }
-      ServerConnection()
+    //  ServerConnection()
       fs.open(args.absolutefilepath, 'r', (err, fd) => {
         if (err) {
           cli.log(`There was an error opening the file to send: ${err}`)
@@ -164,11 +162,12 @@ upload
         })
       })
     }
-    DisconnectServer()
+  //  DisconnectServer()
     callback()
   })
 /*
     * download <database file id> [local file path]
+    * Checks whether the user is logged-in
     * requests a file from the server with the specified id
     * by default, it stores that file locally under the path stored in the database
     * the user should be optionally able to specify an alternate local path
@@ -180,11 +179,11 @@ download
   if (!Userlogged) {
     cli.log('You are not logged in. You have to be logged in to access')
   } else {
-    ServerConnection()
+  //  ServerConnection()
     writeTo(`getfile ${args.fileid}`)
-    server.on('data', (d) => {
+    server.on('data', (data) => {
       let filePathToSave
-      let parsed = JSON.parse((d.toString()))
+      let parsed = JSON.parse((data.toString()))
       if (!args.filepath) {
         filePathToSave = parsed.files.filePath
       } else {
@@ -202,7 +201,7 @@ download
       })
     })
   }
-  DisconnectServer()
+//  DisconnectServer()
   callback()
 })
 export default cli

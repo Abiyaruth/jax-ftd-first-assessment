@@ -17,7 +17,7 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import com.cooksys.ftd.file.storage.model.File;
+
 import com.cooksys.ftd.file.storage.model.User;
 import com.cooksys.ftd.file.storage.model.api.Abstract;
 import com.cooksys.ftd.file.storage.model.api.ClientMessage;
@@ -26,7 +26,7 @@ import com.cooksys.ftd.file.storage.model.api.Register;
 import com.cooksys.ftd.file.storage.model.api.Response;
 import com.cooksys.ftd.file.storage.model.dao.FileDDao;
 import com.cooksys.ftd.file.storage.model.dao.UserDao;
-import com.cooksys.ftd.file.storage.model.dao.UserFileDao;
+
 
 /**
  * Handles the client in server side
@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable {
 	Map<String, Object> properties = new HashMap<String, Object>();
 	private UserDao userDao;
 	private FileDDao fileDao;
-	private UserFileDao userFileDao;
+
 
 	@Override
 	public void run() {
@@ -139,13 +139,14 @@ public class ClientHandler implements Runnable {
 		ClientMessage passwordCheckMessage = getClientMessage();
 
 		if (passwordCheckMessage.getMessage().equals("success")) {
-			message = "*login*Login successful!";
+			message = "Login successful!";
 			response.setMessage(message);
 			log.info(message);
 		}
 
 		sendResponse(response);
 	}
+
 // sends Objects as response
 	public void sendResponse(Response<?> response) throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance(new Class[] { Response.class }, properties);
@@ -195,13 +196,4 @@ public class ClientHandler implements Runnable {
 	public void setFileDao(FileDDao fileDao) {
 		this.fileDao = fileDao;
 	}
-
-	public UserFileDao getUserFileDao() {
-		return userFileDao;
-	}
-
-	public void setUserFileDao(UserFileDao userFileDao) {
-		this.userFileDao = userFileDao;
-	}
-
 }

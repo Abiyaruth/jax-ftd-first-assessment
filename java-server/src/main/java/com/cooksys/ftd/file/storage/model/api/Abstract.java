@@ -10,14 +10,12 @@ import com.cooksys.ftd.file.storage.model.FileD;
 import com.cooksys.ftd.file.storage.model.User;
 import com.cooksys.ftd.file.storage.model.dao.FileDDao;
 import com.cooksys.ftd.file.storage.model.dao.UserDao;
-import com.cooksys.ftd.file.storage.model.dao.UserFileDao;
 
 public class Abstract {
 	protected String filepath;
 	protected String username;
 	protected UserDao userdao;
 	protected FileDDao filedao;
-	protected UserFileDao userfiledao;
 	protected User user;
 	protected FileD file;
 	protected List<FileD> userfile;
@@ -60,14 +58,6 @@ public class Abstract {
 
 	public void setFiledao(FileDDao filedao) {
 		this.filedao = filedao;
-	}
-
-	public UserFileDao getUserfiledao() {
-		return userfiledao;
-	}
-
-	public void setUserfiledao(UserFileDao userfiledao) {
-		this.userfiledao = userfiledao;
 	}
 
 	public User getUser() {

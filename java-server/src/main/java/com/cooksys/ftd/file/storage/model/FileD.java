@@ -1,74 +1,59 @@
 package com.cooksys.ftd.file.storage.model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "Files")
 public class FileD {
-	public static final String PRIMARY_KEY = null;
-	public static final String FILE_COLUMN = null;
-	private Integer fileid;
-	private String filepath;
-	private byte[] filedata;
-	private Long pk;
+	@XmlElement(name = "filePath")
+	private String filePath;
+	@XmlElement(name = "username")
+	private String username;
+	@XmlElement(name = "buffer")
+	private String buffer;
 
 	public FileD() {
 		super();
 	}
 
-	public FileD(Integer fileid, String filepath, byte[] filedata) {
+	public FileD(String filePath, String username, String buffer) {
 		super();
-		this.fileid = fileid;
-		this.filepath = filepath;
-		this.filedata = filedata;
+		this.filePath = filePath;
+		this.username = username;
+		this.buffer = buffer;
 	}
 
-	public Integer getFileid() {
-		return fileid;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setFileid(Integer fileid) {
-		this.fileid = fileid;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
-	public String getFilepath() {
-		return filepath;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public byte[] getFiledata() {
-		return filedata;
+	public String getBuffer() {
+		return buffer;
 	}
 
-	public void setFiledata(byte[] filedata) {
-		this.filedata = filedata;
-	}
-
-	public Long getPk() {
-		return pk;
-	}
-
-	public void setPk(Long pk) {
-		this.pk = pk;
-	}
-
-	public static String getPrimaryKey() {
-		return PRIMARY_KEY;
-	}
-
-	public static String getFileColumn() {
-		return FILE_COLUMN;
+	public void setBuffer(String buffer) {
+		this.buffer = buffer;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((filedata == null) ? 0 : filedata.hashCode());
-		result = prime * result + ((fileid == null) ? 0 : fileid.hashCode());
-		result = prime * result + ((filepath == null) ? 0 : filepath.hashCode());
+		result = prime * result + ((buffer == null) ? 0 : buffer.hashCode());
+		result = prime * result + ((filePath == null) ? 0 : filePath.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -81,31 +66,45 @@ public class FileD {
 		if (getClass() != obj.getClass())
 			return false;
 		FileD other = (FileD) obj;
-		if (filedata == null) {
-			if (other.filedata != null)
+		if (buffer == null) {
+			if (other.buffer != null)
 				return false;
-		} else if (!filedata.equals(other.filedata))
+		} else if (!buffer.equals(other.buffer))
 			return false;
-		if (fileid == null) {
-			if (other.fileid != null)
+		if (filePath == null) {
+			if (other.filePath != null)
 				return false;
-		} else if (!fileid.equals(other.fileid))
+		} else if (!filePath.equals(other.filePath))
 			return false;
-		if (filepath == null) {
-			if (other.filepath != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!filepath.equals(other.filepath))
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "File [fileid=" + fileid + ", filepath=" + filepath + ", filedata=" + filedata + "]";
+		return "FileD [absolutePath=" + filePath + ", username=" + username + ", buffer=" + buffer + "]";
 	}
 
-	public void setPrimaryKey(Long pk) {
-		this.pk = pk;
-
+	public String getAbsolutePath() {
+		return filePath;
 	}
+
+	public String getByteArray() {
+		return buffer;
+	}
+
+	public void setAbsolutePath(String absolutePath) {
+		this.filePath=absolutePath;
+		
+	}
+
+	public void setByteArray(String byteArray) {
+		this.buffer=byteArray;
+		
+	}
+
 }

@@ -22,14 +22,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/fasttrackd-student-3/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.moxy/2.6.3/org.eclipse.persistence.moxy-2.6.3.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="org.eclipse.persistence"/>
-			<attribute name="maven.artifactId" value="org.eclipse.persistence.moxy"/>
-			<attribute name="maven.version" value="2.6.3"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

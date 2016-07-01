@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cooksys.ftd.file.storage.model.dao.FileDDao;
 import com.cooksys.ftd.file.storage.model.dao.UserDao;
-import com.cooksys.ftd.file.storage.model.dao.UserFileDao;
+
 
 /**
  * Server class implements Runnable When the execution starts it waits for this
@@ -28,7 +28,6 @@ public class Server implements Runnable {
 	private ServerSocket serverSocket;
 	private FileDDao filedao;
 	private UserDao userdao;
-	private UserFileDao userfiledao;
 	private int port;
 
 	public Server(int port) {
@@ -62,7 +61,6 @@ public class Server implements Runnable {
 
 		handler.setUserDao(userdao);
 		handler.setFileDao(filedao);
-		handler.setUserFileDao(userfiledao);
 
 		return handler;
 	}
@@ -93,14 +91,6 @@ public class Server implements Runnable {
 
 	public void setUserdao(UserDao userdao) {
 		this.userdao = userdao;
-	}
-
-	public UserFileDao getUserfiledao() {
-		return userfiledao;
-	}
-
-	public void setUserfiledao(UserFileDao userfiledao) {
-		this.userfiledao = userfiledao;
 	}
 
 	public ServerSocket getServerSocket() {
